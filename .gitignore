@@ -41,3 +41,4 @@ public/uploads/
 # temporary files
 tmp/
 temp/
+.vercel
