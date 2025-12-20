@@ -1,0 +1,43 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+build/
+
+# environment variables
+.env
+.env.local
+.env.development
+.env.production
+
+# logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# coverage
+coverage/
+
+# uploads (local)
+public/uploads/
+
+# cache
+.cache/
+.eslintcache
+
+# temporary files
+tmp/
+temp/
