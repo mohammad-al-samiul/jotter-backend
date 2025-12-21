@@ -4,7 +4,7 @@ import { handleZodError } from "../errors/handleZodError";
 import ApiError from "../errors/ApiError";
 
 const errorMiddleware = (
-  err: any,
+  err: unknown,
   req: Request,
   res: Response,
   next: NextFunction
@@ -20,11 +20,14 @@ const errorMiddleware = (
     message = formatted.message;
     errors = formatted.errors;
   } else if (err instanceof ApiError) {
-    /* ===== API / CUSTOM ERROR ===== */
+
+  /* ===== API / CUSTOM ERROR ===== */
     statusCode = err.statusCode;
     message = err.message;
+    errors = err.errors;
   } else if (err instanceof Error) {
-    /* ===== DEFAULT ERROR ===== */
+
+  /* ===== DEFAULT JS ERROR ===== */
     message = err.message;
   }
 
@@ -32,6 +35,9 @@ const errorMiddleware = (
     success: false,
     message,
     ...(errors && { errors }),
+    ...(process.env.NODE_ENV === "development" && {
+      stack: err instanceof Error ? err.stack : undefined,
+    }),
   });
 };
 

@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, Request, Response } from "express";
 import "dotenv/config";
 import cors from "cors";
 import morgan from "morgan";
@@ -12,6 +12,11 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api/v1", router);
+
 app.use(errorMiddleware);
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Express Server is running!");
+});
 
 export default app;
