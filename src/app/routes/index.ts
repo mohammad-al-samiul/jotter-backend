@@ -11,7 +11,7 @@ const routes = [
   { path: "/auth", handler: authRoutes },
   { path: "/notes", handler: noteRoutes },
   { path: "/folders", handler: folderRoutes },
-  { path: "/files", handler: fileRoutes },
+  // { path: "/files", handler: fileRoutes },
 ];
 
 routes.forEach(({ path, handler }) => {

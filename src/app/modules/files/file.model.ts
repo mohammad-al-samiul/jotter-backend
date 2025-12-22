@@ -9,6 +9,10 @@ const fileSchema = new Schema<IFile>(
     url: { type: String, required: true },
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
     folder: { type: Schema.Types.ObjectId, ref: "Folder" },
+    publicId: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

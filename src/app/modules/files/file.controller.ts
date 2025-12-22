@@ -3,13 +3,18 @@ import catchAsync from "../../utils/catchAsync";
 import * as FileService from "./file.service";
 import { JwtPayload } from "jsonwebtoken";
 import { formatFileSize } from "../../utils/fileSize";
+import ApiError from "../../errors/ApiError";
 
 /* ================= UPLOAD (SINGLE OR MULTI) ================= */
 export const uploadFiles = catchAsync(async (req: Request, res: Response) => {
   const user = req.user as JwtPayload & { userId: string };
 
-  let result;
+  let result: any;
 
+  /**
+   * SINGLE UPLOAD
+   * POST /api/v1/files
+   */
   if (req.file) {
     result = await FileService.uploadSingleFile(
       user.userId,
@@ -17,13 +22,18 @@ export const uploadFiles = catchAsync(async (req: Request, res: Response) => {
       req.body.folder
     );
   } else if (req.files && Array.isArray(req.files)) {
+
+  /**
+   * MULTIPLE UPLOAD
+   * POST /api/v1/files/multiple
+   */
     result = await FileService.uploadMultipleFiles(
       user.userId,
-      req.files,
+      req.files as Express.Multer.File[],
       req.body.folder
     );
   } else {
-    throw new Error("No file uploaded");
+    throw new ApiError(400, "No file uploaded");
   }
 
   const formatResponse = (file: any) => ({
@@ -39,6 +49,7 @@ export const uploadFiles = catchAsync(async (req: Request, res: Response) => {
       : formatResponse(result),
   });
 });
+
 /* ================= VIEW FILE ================= */
 export const viewFile = catchAsync(async (req: Request, res: Response) => {
   const user = req.user as JwtPayload & { userId: string };

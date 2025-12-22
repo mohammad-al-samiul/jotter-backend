@@ -6,6 +6,7 @@ import path from "path";
 import { FileType } from "../../types/file-type.enum";
 import { Folder } from "../folders/folder.model";
 import { Types } from "mongoose";
+import { uploadToCloudinary } from "../../utils/cloudinaryUpload";
 
 /* ================= FILE LIST ================= */
 export const getFiles = async (
@@ -28,22 +29,26 @@ export const uploadSingleFile = async (
   userId: string,
   file: Express.Multer.File,
   folder?: string
-): Promise<IFile> => {
-  //  validate folderId if provided
+) => {
+  if (!file?.buffer) {
+    throw new ApiError(400, "Invalid file buffer");
+  }
+
   if (folder) {
     const exists = await Folder.findOne({ _id: folder, user: userId });
-    if (!exists) {
-      throw new ApiError(404, "Folder not found");
-    }
+    if (!exists) throw new ApiError(404, "Folder not found");
   }
+
+  const cloud = await uploadToCloudinary(file.buffer, "user-files");
 
   return await File.create({
     name: file.originalname,
-    type: file.mimetype.startsWith("image") ? "image" : "pdf",
+    type: file.mimetype.startsWith("image") ? FileType.IMAGE : FileType.PDF,
     size: file.size,
-    url: `/uploads/${file.filename}`,
-    user: userId,
-    folder,
+    url: cloud.url,
+    publicId: cloud.publicId,
+    user: new Types.ObjectId(userId),
+    folder: folder ? new Types.ObjectId(folder) : undefined,
   });
 };
 
@@ -54,28 +59,31 @@ export const uploadMultipleFiles = async (
   folder?: string
 ): Promise<IFile[]> => {
   if (folder) {
-    const exists = await Folder.findOne({
-      _id: folder,
-      user: userId,
-    });
+    const exists = await Folder.findOne({ _id: folder, user: userId });
     if (!exists) {
       throw new ApiError(404, "Folder not found");
     }
   }
 
-  const payload = files.map((file) => ({
-    name: file.originalname,
-    type: file.mimetype.startsWith("image") ? FileType.IMAGE : FileType.PDF,
-    size: file.size,
-    url: `/uploads/${file.filename}`,
-    user: new Types.ObjectId(userId),
-    folder: folder ? new Types.ObjectId(folder) : undefined,
-  }));
+  const payload = await Promise.all(
+    files.map(async (file) => {
+      const cloud = await uploadToCloudinary(file.buffer, "user-files");
 
-  const createdFiles = await File.insertMany(payload);
+      return {
+        name: file.originalname,
+        type: file.mimetype.startsWith("image") ? FileType.IMAGE : FileType.PDF,
+        size: file.size,
+        url: cloud.url,
+        publicId: cloud.publicId,
+        user: new Types.ObjectId(userId),
+        folder: folder ? new Types.ObjectId(folder) : undefined,
+      };
+    })
+  );
 
-  return createdFiles;
+  return await File.insertMany(payload);
 };
+
 /* ================= FILE INFO ================= */
 export const getFileInfo = async (
   userId: string,

@@ -9,15 +9,24 @@ import {
   fileIdParamSchema,
 } from "./file.validation";
 import authMiddleware from "../auth/auth.middleware";
-import { upload } from "../../middleware/upload.middleware";
+import { upload } from "../../config/multer";
 
 const fileRoutes = Router();
 
-/* ================= UPLOAD ================= */
+/* SINGLE UPLOAD */
 fileRoutes.post(
   "/",
   authMiddleware,
-  upload.any(),
+  upload.single("file"),
+  validateRequest(uploadFileBodySchema),
+  FileController.uploadFiles
+);
+
+/* MULTIPLE UPLOAD */
+fileRoutes.post(
+  "/multiple",
+  authMiddleware,
+  upload.array("files", 10),
   validateRequest(uploadFileBodySchema),
   FileController.uploadFiles
 );

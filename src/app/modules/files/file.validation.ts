@@ -3,9 +3,7 @@ import { FileType } from "../../types/file-type.enum";
 
 /* ================= UPLOAD BODY ================= */
 export const uploadFileBodySchema = z.object({
-  body: z.object({
-    folder: z.string().optional(),
-  }),
+  folder: z.string().optional(),
 });
 
 /* ================= DELETE ================= */
