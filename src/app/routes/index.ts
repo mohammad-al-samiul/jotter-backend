@@ -6,6 +6,7 @@ import folderRoutes from "../modules/folders/folder.route";
 import fileRoutes from "../modules/files/file.route";
 import favouriteRoutes from "../modules/favorites/favourite.route";
 import calendarRoute from "../modules/calendar/calendar.route";
+import searchRoute from "../modules/search/service.route";
 
 const router = Router();
 
@@ -16,6 +17,7 @@ const routes = [
   { path: "/files", handler: fileRoutes },
   { path: "/favourites", handler: favouriteRoutes },
   { path: "/calendar", handler: calendarRoute },
+  { path: "/search", handler: searchRoute },
 ];
 
 routes.forEach(({ path, handler }) => {
