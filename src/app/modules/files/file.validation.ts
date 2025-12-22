@@ -15,15 +15,19 @@ export const deleteFileSchema = z.object({
   }),
 });
 
-/* ================= RENAME FILE ================= */
+/* ================= RENAME ================= */
 export const renameFileSchema = z.object({
   body: z.object({
-    name: z
-      .string()
-      .min(1, "New file name is required")
-      .min(1, "File name cannot be empty"),
+    name: z.string().min(1, "File name required"),
   }),
   params: z.object({
-    id: z.string().min(1, "File id is required"),
+    id: z.string(),
+  }),
+});
+
+/* ================= FILE INFO ================= */
+export const fileIdParamSchema = z.object({
+  params: z.object({
+    id: z.string(),
   }),
 });

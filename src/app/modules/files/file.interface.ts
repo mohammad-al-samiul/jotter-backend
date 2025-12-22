@@ -10,6 +10,7 @@ export interface IFile {
   url: string;
   user: Types.ObjectId;
   folder?: Types.ObjectId;
+  createdAt: Date;
 }
 
 /* ================= PAYLOADS ================= */

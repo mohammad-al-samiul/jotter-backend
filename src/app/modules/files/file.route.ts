@@ -6,6 +6,7 @@ import {
   renameFileSchema,
   deleteFileSchema,
   uploadFileBodySchema,
+  fileIdParamSchema,
 } from "./file.validation";
 import authMiddleware from "../auth/auth.middleware";
 import { upload } from "../../middleware/upload.middleware";
@@ -17,16 +18,24 @@ fileRoutes.post(
   "/",
   authMiddleware,
   upload.any(),
-  // validateRequest(uploadFileBodySchema),
+  validateRequest(uploadFileBodySchema),
   FileController.uploadFiles
 );
 
-/* ================= DELETE ================= */
-fileRoutes.delete(
-  "/:id",
+/* ================= VIEW ================= */
+fileRoutes.get(
+  "/:id/view",
   authMiddleware,
-  validateRequest(deleteFileSchema),
-  FileController.deleteFile
+  validateRequest(fileIdParamSchema),
+  FileController.viewFile
+);
+
+/* ================= FILE INFO ================= */
+fileRoutes.get(
+  "/:id/info",
+  authMiddleware,
+  validateRequest(fileIdParamSchema),
+  FileController.getFileInfo
 );
 
 /* ================= RENAME ================= */
@@ -35,6 +44,14 @@ fileRoutes.patch(
   authMiddleware,
   validateRequest(renameFileSchema),
   FileController.renameFile
+);
+
+/* ================= DELETE ================= */
+fileRoutes.delete(
+  "/:id",
+  authMiddleware,
+  validateRequest(deleteFileSchema),
+  FileController.deleteFile
 );
 
 export default fileRoutes;
