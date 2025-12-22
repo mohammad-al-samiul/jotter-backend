@@ -5,6 +5,7 @@ import noteRoutes from "../modules/notes/note.route";
 import folderRoutes from "../modules/folders/folder.route";
 import fileRoutes from "../modules/files/file.route";
 import favouriteRoutes from "../modules/favorites/favourite.route";
+import calendarRoute from "../modules/calendar/calendar.route";
 
 const router = Router();
 
@@ -14,6 +15,7 @@ const routes = [
   { path: "/folders", handler: folderRoutes },
   { path: "/files", handler: fileRoutes },
   { path: "/favourites", handler: favouriteRoutes },
+  { path: "/calendar", handler: calendarRoute },
 ];
 
 routes.forEach(({ path, handler }) => {
