@@ -1,5 +1,7 @@
 import { model, Schema } from "mongoose";
 import { IOtp, IUser } from "./auth.interface";
+import bcrypt from "bcryptjs";
+import { NextFunction } from "express";
 
 const userSchema = new Schema<IUser>(
   {
@@ -22,5 +24,18 @@ const otpSchema = new Schema<IOtp>(
   },
   { timestamps: true }
 );
+
+// Hash OTP before save
+otpSchema.pre("save", async function (this: any) {
+  if (!this.isModified("otp")) return;
+
+  const salt = await bcrypt.genSalt(10);
+  this.otp = await bcrypt.hash(this.otp, salt);
+});
+
+// Compare OTP
+otpSchema.methods.compareOtp = function (enteredOtp: string) {
+  return bcrypt.compare(enteredOtp, this.otp);
+};
 
 export const OTP = model<IOtp>("OTP", otpSchema);

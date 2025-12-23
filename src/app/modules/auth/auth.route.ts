@@ -9,6 +9,7 @@ import {
   pinSchema,
 } from "./auth.validation";
 import authMiddleware from "./auth.middleware";
+import { forgotPasswordLimiter } from "../../middleware/rateLimiter";
 
 const authRoutes = Router();
 
@@ -25,6 +26,7 @@ authRoutes.post("/login", validateRequest(loginSchema), AuthController.login);
 authRoutes.post(
   "/forgot-password",
   validateRequest(forgotPasswordSchema),
+  forgotPasswordLimiter,
   AuthController.forgotPassword
 );
 

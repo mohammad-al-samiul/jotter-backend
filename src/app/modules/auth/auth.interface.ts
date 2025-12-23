@@ -30,8 +30,10 @@ export interface IResetPasswordPayload {
 }
 
 /* OTP */
-export interface IOtp {
+
+export interface IOtp extends Document {
   email: string;
   otp: string;
   expiresAt: Date;
+  compareOtp(enteredOtp: string): Promise<boolean>;
 }
