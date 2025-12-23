@@ -45,3 +45,16 @@ export const deleteNote = catchAsync(async (req: Request, res: Response) => {
     message: "Note deleted successfully",
   });
 });
+
+/* ================= DUPLICATE NOTE ================= */
+export const duplicateNote = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user as JwtPayload & { userId: string };
+
+  const note = await NoteService.duplicateNote(user.userId, req.params.id);
+
+  res.status(201).json({
+    success: true,
+    message: "Note duplicated successfully",
+    data: note,
+  });
+});

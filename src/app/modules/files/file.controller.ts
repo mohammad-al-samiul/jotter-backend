@@ -22,11 +22,10 @@ export const uploadFiles = catchAsync(async (req: Request, res: Response) => {
       req.body.folder
     );
   } else if (req.files && Array.isArray(req.files)) {
-
-  /**
-   * MULTIPLE UPLOAD
-   * POST /api/v1/files/multiple
-   */
+    /**
+     * MULTIPLE UPLOAD
+     * POST /api/v1/files/multiple
+     */
     result = await FileService.uploadMultipleFiles(
       user.userId,
       req.files as Express.Multer.File[],
@@ -103,5 +102,18 @@ export const deleteFile = catchAsync(async (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: "File deleted successfully",
+  });
+});
+
+/* ================= DUPLICATE FILE ================= */
+export const duplicateFile = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user as JwtPayload & { userId: string };
+
+  const file = await FileService.duplicateFile(user.userId, req.params.id);
+
+  res.status(201).json({
+    success: true,
+    message: "File duplicated successfully",
+    data: file,
   });
 });

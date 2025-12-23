@@ -8,6 +8,7 @@ import favouriteRoutes from "../modules/favorites/favourite.route";
 import calendarRoute from "../modules/calendar/calendar.route";
 import searchRoute from "../modules/search/service.route";
 import profileRoutes from "../modules/profile/profile.route";
+import dashboardRoutes from "../modules/dashboard/dashboard.route";
 
 const router = Router();
 
@@ -20,6 +21,7 @@ const routes = [
   { path: "/calendar", handler: calendarRoute },
   { path: "/search", handler: searchRoute },
   { path: "/profile", handler: profileRoutes },
+  { path: "/dashboard", handler: dashboardRoutes },
 ];
 
 routes.forEach(({ path, handler }) => {

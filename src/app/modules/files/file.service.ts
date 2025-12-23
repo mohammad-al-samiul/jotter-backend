@@ -138,3 +138,21 @@ export const deleteFile = async (
     fs.unlinkSync(filePath);
   }
 };
+
+/* ================= DUPLICATE FILE ================= */
+export const duplicateFile = async (userId: string, fileId: string) => {
+  const file = await File.findOne({ _id: fileId, user: userId });
+  if (!file) throw new ApiError(404, "File not found");
+
+  const duplicated = await File.create({
+    name: `Copy of ${file.name}`,
+    type: file.type,
+    size: file.size,
+    url: file.url,
+    publicId: file.publicId,
+    user: file.user,
+    folder: file.folder,
+  });
+
+  return duplicated;
+};

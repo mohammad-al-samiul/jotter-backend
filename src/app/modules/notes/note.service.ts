@@ -30,3 +30,18 @@ export const deleteNote = async (userId: string, noteId: string) => {
   if (!note) throw new ApiError(404, "Note not found");
   return true;
 };
+
+/* ================= DUPLICATE NOTE ================= */
+export const duplicateNote = async (userId: string, noteId: string) => {
+  const note = await Note.findOne({ _id: noteId, user: userId });
+  if (!note) throw new ApiError(404, "Note not found");
+
+  const duplicated = await Note.create({
+    title: `Copy of ${note.title}`,
+    content: note.content,
+    user: note.user,
+    folder: note.folder,
+  });
+
+  return duplicated;
+};

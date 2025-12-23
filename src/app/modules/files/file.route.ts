@@ -47,6 +47,9 @@ fileRoutes.get(
   FileController.getFileInfo
 );
 
+/* ================= DUPLICATE ================= */
+fileRoutes.post("/:id/duplicate", authMiddleware, FileController.duplicateFile);
+
 /* ================= RENAME ================= */
 fileRoutes.patch(
   "/:id/rename",

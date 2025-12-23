@@ -20,6 +20,8 @@ noteRoutes.patch(
   validateRequest(updateNoteSchema),
   NoteController.updateNote
 );
+/* ================= DUPLICATE ================= */
+noteRoutes.post("/:id/duplicate", authMiddleware, NoteController.duplicateNote);
 
 noteRoutes.delete("/:id", authMiddleware, NoteController.deleteNote);
 

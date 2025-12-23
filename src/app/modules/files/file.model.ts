@@ -13,6 +13,7 @@ const fileSchema = new Schema<IFile>(
       type: String,
       required: true,
     },
+    createdAt: Date,
   },
   { timestamps: true }
 );
