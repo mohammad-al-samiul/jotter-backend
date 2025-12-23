@@ -102,14 +102,9 @@ EMAIL_PASS=your_app_password
 
 ```
 npm install
-npm run dev
-Server will run at:
+npm run start:dev
+Server will run at: http://localhost:5000
 ```
-
-Base API: http://localhost:5000
-
-```
-
 
 /api/v1
 🔐 Authentication APIs
@@ -122,33 +117,30 @@ POST /auth/pin/set
 POST /auth/pin/verify
 📝 Notes APIs
 
-
-POST    /notes
-GET     /notes/:id
-PATCH   /notes/:id
-DELETE  /notes/:id
-POST    /notes/:id/duplicate
+POST /notes
+GET /notes/:id
+PATCH /notes/:id
+DELETE /notes/:id
+POST /notes/:id/duplicate
 📁 Folder APIs
 
-
-POST    /folders
-GET     /folders
-GET     /folders/:id
-GET     /folders/:id/items
-PATCH   /folders/:id
-DELETE  /folders/:id
+POST /folders
+GET /folders
+GET /folders/:id
+GET /folders/:id/items
+PATCH /folders/:id
+DELETE /folders/:id
 Folders are logical (database-based) and not created on disk.
 
 📂 File APIs
 
-
-POST    /files                (single upload)
-POST    /files/multiple       (multiple upload)
-GET     /files/:id/view
-GET     /files/:id/info
-PATCH   /files/:id/rename
-DELETE  /files/:id
-POST    /files/:id/duplicate
+POST /files (single upload)
+POST /files/multiple (multiple upload)
+GET /files/:id/view
+GET /files/:id/info
+PATCH /files/:id/rename
+DELETE /files/:id
+POST /files/:id/duplicate
 
 File Rules
 Supported formats: Images, PDF
@@ -159,9 +151,9 @@ File size is stored in bytes and returned as KB / MB / GB
 
 ⭐ Favourites APIs
 
-POST    /favourites
-GET     /favourites
-DELETE  /favourites/:id
+POST /favourites
+GET /favourites
+DELETE /favourites/:id
 Supports favourites for:
 
 Notes
@@ -175,7 +167,6 @@ Returns notes and files created on a specific date.
 
 🔍 Global Search API
 
-
 GET /search?q=keyword
 Searches across:
 
@@ -185,10 +176,10 @@ Folders
 
 👤 Profile APIs
 
-GET     /profile
-PATCH   /profile
-PATCH   /profile/change-password
-DELETE  /profile
+GET /profile
+PATCH /profile
+PATCH /profile/change-password
+DELETE /profile
 Password change requires old password
 
 Account deletion performs cascade delete of all user data
@@ -235,4 +226,7 @@ Storage quota enforcement
 Activity logs
 
 Cloud storage (AWS S3)
+
+```
+
 ```
