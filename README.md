@@ -106,6 +106,7 @@ npm run start:dev
 Server will run at: http://localhost:5000
 ```
 
+```
 /api/v1
 🔐 Authentication APIs
 
@@ -226,6 +227,8 @@ Storage quota enforcement
 Activity logs
 
 Cloud storage (AWS S3)
+
+```
 
 ```
 
