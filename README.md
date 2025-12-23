@@ -225,11 +225,7 @@ Auto-save notes
 File sharing with access control
 Storage quota enforcement
 Activity logs
-
 Cloud storage (AWS S3)
 
 ```
 
-```
-
-```
